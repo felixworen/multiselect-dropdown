@@ -1,5 +1,3 @@
-// Source: https://github.com/admirhodzic/multiselect-dropdown
-
 var style = document.createElement('style');
 style.setAttribute("id","multiselect_dropdown_styles");
 style.innerHTML = `
@@ -155,17 +153,18 @@ function MultiselectDropdown(options){
         list.appendChild(op);
       }
 
-      Array.from(el.options).map(o=>{
-        var op=newEl('div',{class:(o.selected?'checked':'')+(o.classList.length>0?o.classList.value.split(' '):''),optEl:o})
-        var ic=newEl('input',{type:'checkbox',checked:o.selected});
+      Array.from(el.options).map(o => {
+        var op = newEl('div', { class: (o.selected ? 'checked' : '') + (o.classList.length > 0 ? o.classList.value.split(' ') : ''), optEl:o })
+        var ic = newEl('input', { type: 'checkbox', checked: o.selected });
         op.appendChild(ic);
-        op.appendChild(newEl('label',{text:o.text}));
+        op.appendChild(newEl('label', { text: o.text }));
 
         op.addEventListener('click',()=>{
           op.classList.toggle('checked');
           op.querySelector("input").checked=!op.querySelector("input").checked;
           op.optEl.selected=!!!op.optEl.selected;
           el.dispatchEvent(new Event('change'));
+          o.setAttribute('selected', 'selected');
         });
         ic.addEventListener('click',(ev)=>{
           ic.checked=!ic.checked;
@@ -183,7 +182,7 @@ function MultiselectDropdown(options){
         }else{
           sels.map(x=>{
             var c=newEl('span',{class:'optext',text:x.text, srcOption: x});
-            if((el.attributes['multiselect-hide-x'] && el.attributes['multiselect-hide-x'].value === 'true'))
+            if(!el.attributes['multiselect-hide-x'] || el.attributes['multiselect-hide-x'].value !== 'true')
               c.appendChild(newEl('span',{class:'optdel',text:'🗙',title:config.txtRemove, onclick:(ev)=>{c.srcOption.listitemEl.dispatchEvent(new Event('click'));div.refresh();ev.stopPropagation();}}));
 
             div.appendChild(c);
