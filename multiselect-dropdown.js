@@ -1,3 +1,5 @@
+// Source: https://github.com/admirhodzic/multiselect-dropdown
+
 var style = document.createElement('style');
 style.setAttribute("id","multiselect_dropdown_styles");
 style.innerHTML = `
@@ -127,7 +129,7 @@ function MultiselectDropdown(options){
     div.appendChild(listWrap);
     listWrap.appendChild(list);
 
-    el.loadOptions=()=>{
+    el.addEventListener('loadOptions', () => {
       list.innerHTML='';
 
       if(el.attributes['multiselect-select-all'] && el.attributes['multiselect-select-all'].value=='true'){
@@ -191,7 +193,7 @@ function MultiselectDropdown(options){
       };
       div.refresh();
     })
-    el.loadOptions();
+    el.dispatchEvent(new Event('loadOptions'))
 
     search.addEventListener('input',()=>{
       list.querySelectorAll(":scope div:not(.multiselect-dropdown-all-selector)").forEach(d=>{
